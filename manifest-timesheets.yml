@@ -4,7 +4,6 @@ applications:
   host: timesheets-pal-nmgemc
   memory: 1G
   instances: 1
-  env:
-    REGISTRATION_SERVER_ENDPOINT: http://registration-pal-nmgemc.apps.longs.pal.pivotal.io
   services:
   - tracker-timesheets-database
+  - tracker-service-registry
