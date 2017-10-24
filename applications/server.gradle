@@ -32,4 +32,7 @@ dependencies {
             "SECURITY_USER_NAME": "actuator",
             "SECURITY_USER_PASSWORD": "operations4red"
     ])
+    test.environment([
+            "APPLICATION_OAUTH_ENABLED": false
+    ])
 }
