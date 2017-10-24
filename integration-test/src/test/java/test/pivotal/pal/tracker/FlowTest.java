@@ -72,7 +72,7 @@ public class FlowTest {
         timesheetsServer.stop();
     }
 
-    //@Test
+    @Test
     public void testBasicFlow() throws Exception {
         HttpClient.Response response;
 
