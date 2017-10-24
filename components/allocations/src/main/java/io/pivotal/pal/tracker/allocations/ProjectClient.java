@@ -1,18 +1,33 @@
 package io.pivotal.pal.tracker.allocations;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.web.client.RestOperations;
+
+import java.util.Hashtable;
+import java.util.Map;
 
 public class ProjectClient {
 
     private final RestOperations restOperations;
-    private final String registrationServerEndpoint;
+    private final String endpoint;
+
+    private Map<Long,ProjectInfo> cachedProjects = new Hashtable<Long,ProjectInfo>();
 
     public ProjectClient(RestOperations restOperations, String registrationServerEndpoint) {
-        this.restOperations= restOperations;
-        this.registrationServerEndpoint = registrationServerEndpoint;
+        this.restOperations = restOperations;
+        this.endpoint = registrationServerEndpoint;
     }
 
+    @HystrixCommand(fallbackMethod = "getProjectFromCache")
     public ProjectInfo getProject(long projectId) {
-        return restOperations.getForObject(registrationServerEndpoint + "/projects/" + projectId, ProjectInfo.class);
+        ProjectInfo foundProject =  restOperations.getForObject(endpoint + "/projects/" + projectId, ProjectInfo.class);
+        if(foundProject != null){
+            cachedProjects.put(projectId,foundProject);
+        }
+        return foundProject;
+    }
+
+    public ProjectInfo getProjectFromCache(long projectId){
+        return cachedProjects.get(projectId);
     }
 }
