@@ -26,7 +26,7 @@ public class ProjectClient {
         return foundProject;
     }
 
-    public ProjectInfo getProjectFromCache(Long projectId){
+    public ProjectInfo getProjectFromCache(long projectId){
         return cachedProjects.get(projectId);
     }
 }
